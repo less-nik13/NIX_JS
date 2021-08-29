@@ -15,12 +15,19 @@ const citiesAndCountries = {
     Вена: 'Австрия',
 };
 
+// With Mutation
+// function getCity(obj) {
+//     return Object.entries(obj).reduce((acc, obj) => {
+//         obj.splice(1, 0, '- это');
+//         console.log(obj);
+//         return [...acc, obj.join(' ')];
+//     }, []);
+// }
+
 function getCity(obj) {
-    return Object.entries(obj).reduce((acc, obj) => {
-        obj.splice(1, 0, '- это');
-        console.log(obj);
-        return [...acc, obj.join(' ')];
-    }, []);
+  return Object.entries(obj).reduce((acc, el) => {
+    return [...acc, el.toString().replace(",", " - это ")];
+  }, []);
 }
 
 const result = getCity(citiesAndCountries); // ['Киев - это Украина', 'Нью-Йорк - это США', ... и т.д.]
