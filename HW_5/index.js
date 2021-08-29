@@ -47,7 +47,7 @@ function getNameOfDay(lang, datNumber) {
         case 'ru':
             //1st WAY
             datNumber >= 1
-                ? console.log(this.ru.find((el, index) => el[index] === el[datNumber - 1]))
+                ? console.log(this.ru.find((el, index) => index === datNumber - 1))
                 : console.log('Day number must be 1 or high');
             break;
         case 'en':
@@ -99,35 +99,34 @@ console.log(person1);
 // ageValidation только проверяет данные, он ничего не записывает (в ageValidation не должно быть this.age = age)
 
 const person2 = {
-    setName(name) {
-        this.name = name;
-    },
+  setName(name) {
+    this.name = name;
+  },
 
-    getName() {
-        return this.name;
-    },
+  getName() {
+    return this.name;
+  },
 
-    setAge(age) {
-        this.ageValidation(age);
-    },
+  setAge(age) {
+    this.age = this.ageValidation(age);
+  },
 
-    getAge() {
-        return this.age;
-    },
+  getAge() {
+    return this.age;
+  },
 
-    ageValidation(age) {
-        return age < 18 ? (this.age = 'Validation Error') : (this.age = age);
-    },
+  ageValidation(age) {
+    return typeof age === "number" && age >= 18 ? age : "Validation Error";
+  }
 };
 
 const person3 = {
-    age: 21,
-    __proto__: person2,
+  __proto__: person2
 };
 
-person3.setName('Nikita');
+person3.setName("Nikita");
 console.log(person3.getName());
-person3.setAge(18);
-console.log(person3.age);
-console.log(person2);
+person3.setAge("abba");
+// person3.setAge(17);
+// person3.setAge(18);
 console.log(person3);
