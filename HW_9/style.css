@@ -1,0 +1,155 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 0 30px;
+    margin: 0 auto;
+}
+
+.task-5 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tic-tac-toe{
+    text-align: center;
+}
+
+.turn_title{
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+.score{
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.wrapper{
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 165px;
+    height: 165px;
+    background-color: #7f8488;
+    border: 1px solid #cfcfcf;
+    font-size: 100px;
+    cursor: pointer;
+}
+
+/* .wrapper .cell.victory{
+    background-color: #e96e6e;
+} */
+
+.restart{
+    text-align: center;
+    padding-top: 20px;
+}
+.restart a{
+    display:inline-block;
+    padding:15px 20px;
+    background-color: #a52a2a;
+    color:#fff;
+    font-size: 18px;
+    margin-bottom: 100px;
+}
+
+/* .rez_war{
+    background-color: brown;
+    padding: 50px 0;
+    position: absolute;
+    text-align: center;
+    top: 130px;
+    width: 100%;
+    display: none;
+}
+
+.rez_war p{
+    color: #fff;
+    font-size: 66px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.rez_war_no{
+    background-color: darkolivegreen;
+    padding: 50px 0;
+    position: absolute;
+    text-align: center;
+    top: 130px;
+    width: 100%;
+    display: none;
+}
+.rez_text_no{
+    color: #fff;
+    font-size: 66px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.victory{
+    text-align: center;
+    color: #fff;
+    background-color: brown;
+    padding: 30px 0;
+    font-size: 35px;
+    position: absolute;
+    width: 100%;
+    top: 39%;
+    display: none;
+} */
+
+.mark::before,
+.mark::after,
+.circle::before {
+  background-color: rgb(230, 230, 230);
+}
+
+.cell.mark::before,
+.cell.mark::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 90px;
+}
+
+.cell.mark::before {
+  transform: rotate(45deg);
+}
+
+.cell.mark::after {
+  transform: rotate(-45deg);
+}
+
+.cell.circle::before,
+.cell.circle::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+
+.cell.circle::before {
+  width: 90px;
+  height: 90px;
+}
+
+.cell.circle::after {
+  width: 65px;
+  height: 65px;
+  background-color: #7f8488;
+}
