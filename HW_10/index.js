@@ -7,7 +7,8 @@ async function getData(url) {
     try {
         const response = await fetch(url);
         if (response.ok) {
-            return await response.json();
+            const data = await response.json();
+            createCard(data);
         } else {
             throw 'Server is not responding';
         }
@@ -16,16 +17,16 @@ async function getData(url) {
     }
 }
 
-async function createCard() {
-    const data = await getData(url);
+getData(url);
 
+function createCard(data) {
     data.forEach((el) => {
         let cardEl = document.createElement('li');
-        let cardElem;
+        let cardInnerHTML;
 
         cardEl.classList = 'card';
 
-        cardElem = `<div class="card-image">
+        cardInnerHTML = `<div class="card-image">
         <img data-image_id=${el.id} src="${el.image_url}"
             alt="rover" />
         </div>
@@ -42,13 +43,13 @@ async function createCard() {
 
         const foodPairing = el.food_pairing;
         foodPairing.forEach((food) => {
-            cardElem += `<li class="food-item">
+            cardInnerHTML += `<li class="food-item">
             ${food}
             </li>
             `;
         });
 
-        cardElem += `
+        cardInnerHTML += `
         </ul>
                 <div class="details">
                 <p>Alcohol by Volume: <span class="small">${el.abv}</span></p>
@@ -56,7 +57,7 @@ async function createCard() {
                 </div>
             </div>`;
 
-        cardEl.innerHTML = cardElem;
+        cardEl.innerHTML = cardInnerHTML;
 
         cards.append(cardEl);
 
@@ -69,5 +70,3 @@ async function createCard() {
 function addToLocalStorage(el) {
     localStorage.setItem(`imageId${el.target.dataset.image_id}`, el.target.dataset.image_id);
 }
-
-createCard();
