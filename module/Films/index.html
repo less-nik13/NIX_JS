@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Nikita Podgorniy">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <title>Module</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar__wrapper">
+                    <a href="#" class="logo">
+                        <img src="../images/logo.png" alt="Logo Yoga">
+                    </a>
+
+                    <button type="button" class="burger" id="burger">
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                    </button>
+
+                    <div class="menu" id="menu">
+                        <ul class="menu__list">
+                            <li class="menu__list-item"><a href="../Films/index.html"
+                                    class="menu__list-link menu__list-link--active">Films</a></li>
+                            <li class="menu__list-item"><a href="../Favorites/index.html"
+                                    class="menu__list-link">Favorites</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="modal" class="modal__overlay hideModal">
+    </div>
+
+    <div class="container">
+        <main id="main">
+
+            <div id="loader">
+                <div class="lds-dual-ring"></div>
+            </div>
+
+            <form action="" class="form">
+                <div class="form__wrapper">
+                    <input id="form__input" autocomplete="off" type="text" placeholder="Enter film name" name="film"
+                        maxlength="10">
+                    <button id="form__btn">Find</button>
+                </div>
+            </form>
+
+            <div class="filters">
+                <div class="filters__page-items">
+                    <label for="items-per-page">Films Per Page:</label>
+                    <select name="items" id="items-per-page">
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+
+            <section class="cards">
+                <ul id="cards">
+
+                </ul>
+            </section>
+
+            <!-- <div class="pagination">
+                <ul>
+                    pages or li are comes from javascript
+                </ul>
+            </div> -->
+
+            <div class="pagination">
+                <ul>
+                    <li class="numb active">1</li>
+                    <li class="numb">2</li>
+                    <li class="numb">3</li>
+                    <li class="numb">4</li>
+                    <li class="numb">5</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script src="../index.js"></script>
+</body>
+
+</html>
