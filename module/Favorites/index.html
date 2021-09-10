@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Nikita Podgorniy">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <title>Module</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar__wrapper">
+                    <a href="#" class="logo">
+                        <img src="../images/logo.png" alt="Logo Yoga">
+                    </a>
+
+                    <button type="button" class="burger" id="burger">
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                        <span class="burger-line"></span>
+                    </button>
+
+                    <div class="menu" id="menu">
+                        <ul class="menu__list">
+                            <li class="menu__list-item"><a href="../Films/index.html"
+                                    class="menu__list-link menu__list-link--active">Films</a></li>
+                            <li class="menu__list-item"><a href="../Favorites/index.html"
+                                    class="menu__list-link">Favorites</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="modal" class="modal__overlay hideModal">
+    </div>
+
+    <div class="container">
+        <main id="main">
+
+            <div id="loader">
+                <div class="lds-dual-ring"></div>
+            </div>
+
+            <section class="cards">
+                <ul id="cards">
+
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <script src="../index.js"></script>
+</body>
+
+</html>

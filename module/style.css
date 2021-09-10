@@ -147,6 +147,10 @@ a {
     transition: fill .3s ease-in-out;
 }
 
+.cards__favorite.active>svg path {
+    fill: #92c796;
+}
+
 .cards__favorite:hover>svg path {
     fill: #92c796;
 }
@@ -159,6 +163,10 @@ a {
 
 .cards__item-summary {
     color: #000000
+}
+
+.cards__item {
+    cursor: pointer;
 }
 
 
