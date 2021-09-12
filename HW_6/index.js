@@ -27,13 +27,32 @@ console.log('First task result (with new):', mouse);
 
 function Calculator() {
     this.read = function () {
-        this.val1 = +prompt('Please enter first number');
-        this.val2 = +prompt('Please enter second number');
+        let value1;
+        // isNaN from undefined return true
+        // prompt возвращает null если пользователь закрыл поле ввода
+        while (isNaN(value1) === true || value1 === '' || value1 === null) {
+            value1 = prompt('Please, enter first number');
+        }
+
+        let value2;
+        console.log(value2);
+        while (isNaN(value2) === true || value2 === '' || value2 === null) {
+            value2 = prompt('Please, enter second number');
+        }
+
+        this.val1 = +value1;
+        this.val2 = +value2;
     };
 
     this.setAction = function () {
-        this.action = prompt('Please enter action (sum, mul, min, div)');
-        return this.doAction();
+        let action = prompt('Please enter action (sum, mul, min, div)');
+
+        while (!(action === 'sum' || action === 'mul' || action === 'min' || action === 'div')) {
+            action = prompt('Please enter action (sum, mul, min, div)');
+        }
+
+        this.action = action;
+        alert(this.doAction());
     };
 
     this.doAction = function () {
@@ -133,7 +152,7 @@ console.log('Fourth task result: ', newArr);
 let object1 = { a: 1, b: 2, c: 3, d: false, e: 0, 5: true, 12: true, 15: true };
 Object.prototype.getKeySum = function () {
     return Object.entries(this)
-        .filter((el) => el[1] === true)
+        .filter((el) => isNaN(el[0]) === false && el[1] === true)
         .reduce((acc, el) => {
             console.log(el);
             acc += +el[0];
