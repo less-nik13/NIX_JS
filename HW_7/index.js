@@ -140,24 +140,25 @@ const group = [
 
 //1st WAY
 function getStudentsList(arrayOfStudents) {
-    return arrayOfStudents.map((el) =>
-        console.log(
-            Object.entries(el)
-                .map((item) => item.join(' - '))
-                .join(', '),
-        ),
-    );
+    arrayOfStudents.forEach((item) => {
+        item.toString = function () {
+            return `name - ${this.name}, lastName - ${this.lastName}, age - ${this.age}, notebook - ${this.notebook}`;
+        };
+        console.log(item.toString());
+    });
 }
+
+getStudentsList(group);
 
 //2nd WAY
 // function getStudentsList(arrayOfStudents) {
-//     return arrayOfStudents.map((el) =>
+//     arrayOfStudents.forEach((el) =>
 //         console.log(
 //             Object.entries(el)
-//                 .map((item) => item.toString().replace(',', ' - '))
+//                 .filter((el) => typeof el[1] !== 'function' && typeof el[1] !== 'object')
+//                 .map((item) => item.join(' - '))
 //                 .join(', '),
 //         ),
 //     );
 // }
-
-getStudentsList(group);
+// getStudentsList(group);
