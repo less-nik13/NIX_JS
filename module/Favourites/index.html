@@ -34,8 +34,8 @@
                         <ul class="menu__list">
                             <li class="menu__list-item"><a href="../Films/index.html"
                                     class="menu__list-link menu__list-link--active">Films</a></li>
-                            <li class="menu__list-item"><a href="../Favorites/index.html"
-                                    class="menu__list-link">Favorites</a></li>
+                            <li class="menu__list-item"><a href="../Favourites/index.html"
+                                    class="menu__list-link">Favourites</a></li>
                         </ul>
                     </div>
                 </div>
@@ -48,6 +48,36 @@
 
     <div class="container">
         <main id="main">
+            <h1 class="films__title">Favourites</h1>
+
+            <div class="filters">
+                <div class="filters__genres">
+                    <label for="genres">Genres: </label>
+                    <select name="genres" id="genres">
+                        <option value="All" selected>All</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Crime">Crime</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Family">Family</option>
+                        <option value="Music">Music</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Science-Fiction">Science-Fiction</option>
+                        <option value="Sports">Sports</option>
+                    </select>
+                </div>
+                <div class="filters__languages">
+                    <label for="languages">Language: </label>
+                    <select name="language" id="languages">
+                        <option value="All" selected>All</option>
+                        <option value="English">English</option>
+                        <option value="Portuguese">Portuguese</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="German">German</option>
+                    </select>
+                </div>
+            </div>
 
             <div id="loader">
                 <div class="lds-dual-ring"></div>
@@ -61,7 +91,9 @@
         </main>
     </div>
 
-    <script src="../index.js"></script>
+    <a id="button"></a>
+
+    <script type="module" src="../js/index.js"></script>
 </body>
 
 </html>

@@ -9,12 +9,13 @@ const searchSubmit = document.getElementById('form__btn');
 const filmsOnPage = document.getElementById('items-per-page');
 const pagination = document.querySelector('.pagination');
 
-const fallbackImage = 'https://picsum.photos/680/1000';
+// const defaultURL = 'http://api.tvmaze.com/shows?page=1';
+// const fallbackImage = 'https://picsum.photos/680/1000';
 const fallbackSummary =
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.';
 
-let page = 1;
-let value = filmsOnPage.options[filmsOnPage.selectedIndex].value;
+export let page = 1;
+// let value = filmsOnPage.options[filmsOnPage.selectedIndex].value;
 let films;
 
 async function start() {
@@ -42,33 +43,35 @@ async function getFavorites() {
 
 start();
 
-filmsOnPage.addEventListener('change', function () {
-    value = filmsOnPage.options[filmsOnPage.selectedIndex].value;
-    createCard(value);
-});
+// filmsOnPage.addEventListener('change', function () {
+//     value = filmsOnPage.options[filmsOnPage.selectedIndex].value;
+//     createCard(value);
+// });
 
 async function fetchData(url) {
-    if (!searchInput.value && url === undefined) {
+    if (url === undefined) {
         const getData = await fetch(`http://api.tvmaze.com/shows?page=${page}`);
         return await getData.json();
-    } else if (searchInput.value && url === undefined) {
+    } else if (url === undefined) {
         const getData = await fetch(`http://api.tvmaze.com/search/shows?q=${searchInput.value}`);
         return await getData.json();
-    } else {
-        const getData = await fetch(url);
+    } else if (url) {
+        const getData = await fetch(`https://api.tvmaze.com/shows/${url}`);
         return await getData.json();
     }
 }
 
 async function createCard(limit) {
     cardsBlock.innerHTML = '';
-    const filmsArray = sliceFilms(films, limit);
+    console.log(films);
+    const filmsArray = sliceFilms(films, films.length);
+    console.log(filmsArray);
 
-    if (searchInput.value) {
-        pagination.style.display = 'none';
-    } else {
-        pagination.style.display = 'block';
-    }
+    // if (searchInput.value) {
+    //     pagination.style.display = 'none';
+    // } else {
+    //     pagination.style.display = 'block';
+    // }
 
     if (films.length) {
         loader.style.display = 'none';
@@ -79,7 +82,7 @@ async function createCard(limit) {
         const cardItem = createElement('div', 'class', 'cards__item');
         const cardImage = createElement('img', 'class', 'cards__item-poster');
         const cardFavorite = createElement('button', 'class', 'cards__favorite');
-
+        console.log(film);
         const { id, image, name } = film;
 
         cardFavorite.innerHTML = `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -124,7 +127,8 @@ async function createCard(limit) {
 }
 
 function sliceFilms(films, limit) {
-    const slicedData = films.length > 50 ? films.slice(100, 150) : films.map((el) => el.show);
+    const slicedData = films.length > 50 ? films.slice(100, 150) : films;
+    console.log(slicedData);
     return slicedData.slice(0, limit);
 }
 
@@ -207,70 +211,11 @@ function trimText(text) {
     return text.slice(0, 300) + '...';
 }
 
-searchSubmit.addEventListener('click', (e) => {
-    e.preventDefault();
-    start(value);
-});
-
 function createElement(elem, attrName, attrValue) {
     const element = document.createElement(elem);
     element.setAttribute(attrName, attrValue);
     return element;
 }
-
-// const name = document.getElementById('name');
-// const pass = document.getElementById('pass');
-// const button = document.getElementById('submit');
-
-// button.addEventListener('click', () => {
-//     const user = {
-//         name: name.value,
-//         pass: pass.value,
-//     };
-
-//     const promise = fetch('https://api.jsonbin.io/b/5f2c66aa6f8e4e3faf2cd347', {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'secret-key': '$2b$10$dgM1SKMKiT9Mwj/qs8/0auCBRW85JrfDfVhdB8uoUfh90.wEpXJcK',
-//         },
-//         body: JSON.stringify(user),
-//     });
-
-//     promise.then((resp) => resp.json()).then((response) => console.log(response));
-// });
-
-// burgerMenu.addEventListener('click', () => {
-//     burgerMenu.classList.toggle('active');
-//     navbarMenu.classList.toggle('active');
-
-//     if (navbarMenu.classList.contains('active')) {
-//         navbarMenu.style.maxHeight = navbarMenu.scrollHeight + 'px';
-//     } else {
-//         navbarMenu.removeAttribute('style');
-//     }
-// });
-
-const paginationItems = document.querySelectorAll('.numb');
-
-paginationItems.forEach((el) =>
-    el.addEventListener('click', function () {
-        // Берём все элементы на которые не кликнули, и удаляем у них активный класс
-        const notClickedLinks = [...paginationItems].filter((notClickedLink) => {
-            return notClickedLink !== el;
-        });
-
-        notClickedLinks.forEach((notClickedLink) => {
-            notClickedLink.classList.remove('active');
-        });
-
-        if (!el.classList.contains('active')) {
-            page = +el.innerText;
-            el.classList.add('active');
-            start();
-        }
-    }),
-);
 
 function addToFavorites(id) {
     const identifiers = [];
@@ -294,6 +239,10 @@ function removeFromFavorites(id) {
         'identifiers',
         JSON.stringify(identifiers.filter((el) => el.id != id).sort((a, b) => a.id - b.id)),
     );
+    //update page
+    if (window.location.pathname.includes('Favorites')) {
+        start();
+    }
 }
 
 function checkFavorites(id, elem) {
@@ -307,85 +256,3 @@ function checkFavorites(id, elem) {
         }
     }
 }
-
-let totalPages = 5;
-// let page = 1;
-
-//calling function with passing parameters and adding inside element which is ul tag
-// element.innerHTML = createPagination(totalPages, page);
-
-// function createPagination(totalPages, page) {
-//     let liTag = '';
-//     let active;
-//     let beforePage = page - 1;
-//     let afterPage = page + 1;
-
-//     //show the next button if the page value is greater than 1
-//     if (page > 1) {
-//         liTag += `<li class="btn prev" onclick="createPagination(totalPages, ${
-//             page - 1
-//         })"><span>Prev</span></li>`;
-//     }
-
-//     //if page value is less than 2 then add 1 after the previous button
-//     if (page > 2) {
-//         liTag += `<li class="first numb" onclick="createPagination(totalPages, 1)"><span>1</span></li>`;
-
-//         //if page value is greater than 3 then add this (...) after the first li or page
-//         if (page > 3) {
-//             liTag += `<li class="dots"><span>...</span></li>`;
-//         }
-//     }
-
-//     // how many pages or li show before the current li
-//     if (page == totalPages) {
-//         beforePage = beforePage - 2;
-//     } else if (page == totalPages - 1) {
-//         beforePage = beforePage - 1;
-//     }
-//     // how many pages or li show after the current li
-//     if (page == 1) {
-//         afterPage = afterPage + 2;
-//     } else if (page == 2) {
-//         afterPage = afterPage + 1;
-//     }
-
-//     for (var plength = beforePage; plength <= afterPage; plength++) {
-//         if (plength > totalPages) {
-//             //if plength is greater than totalPage length then continue
-//             continue;
-//         }
-//         if (plength == 0) {
-//             //if plength is 0 than add +1 in plength value
-//             plength = plength + 1;
-//         }
-//         if (page == plength) {
-//             //if page is equal to plength than assign active string in the active variable
-//             active = 'active';
-//         } else {
-//             //else leave empty to the active variable
-//             active = '';
-//         }
-//         liTag += `<li class="numb ${active}" onclick="createPagination(totalPages, ${plength})"><span>${plength}</span></li>`;
-//     }
-
-//     if (page < totalPages - 1) {
-//         //if page value is less than totalPage value by -1 then show the last li or page
-//         if (page < totalPages - 2) {
-//             //if page value is less than totalPage value by -2 then add this (...) before the last li or page
-//             liTag += `<li class="dots"><span>...</span></li>`;
-//         }
-//         liTag += `<li class="last numb" onclick="createPagination(totalPages, ${totalPages})"><span>${totalPages}</span></li>`;
-//     }
-
-//     if (page < totalPages) {
-//         //show the next button if the page value is less than totalPage(20)
-//         liTag += `<li class="btn next" onclick="createPagination(totalPages, ${
-//             page + 1
-//         })"><span>Next <i class="fas fa-angle-right"></i></span></li>`;
-//     }
-
-//     console.log(page);
-//     element.innerHTML = liTag; //add li tag inside ul tag
-//     return liTag; //reurn the li tag
-// }
