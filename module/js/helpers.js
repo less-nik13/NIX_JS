@@ -1,38 +1,37 @@
+import { createCard } from './createCard.js';
+import { message } from './index.js';
+
 export function sliceFilms(films, limit, genre, language) {
-    if (limit && genre === 'All' && language === 'All') {
-        // change function for input
-        const slicedData =
-            films.length > 50 ? films.slice(0, limit) : films.map((el) => el.show).slice(0, limit);
-        console.log('Sliced DATA', slicedData);
-        return slicedData;
-    }
+    const slicedData = films.map((el) => (el.show ? el.show : el));
 
-    if (limit && genre !== 'All' && language !== 'All') {
-        const slicedData = films
-            .map((el) => (el.show ? el.show : el))
-            .filter((film) => film.genres.includes(genre) && film.language === language);
-        console.log('slicedData', slicedData);
-
+    if (genre === 'All' && language === 'All') {
         return slicedData.slice(0, limit);
     }
 
-    if (limit && genre !== 'All') {
-        console.log('LIMIT', limit);
-        const slicedData = films
-            .map((el) => (el.show ? el.show : el))
-            .filter((film) => film.genres.includes(genre));
-        console.log('GENRES ', slicedData, genre);
-        return slicedData.slice(0, limit);
+    if (genre !== 'All' && language !== 'All') {
+        return slicedData
+            .filter((film) => film.genres.includes(genre) && film.language === language)
+            .slice(0, limit);
     }
 
-    if (limit && language !== 'All') {
-        console.log('LIMIT', limit);
-        const slicedData = films
-            .map((el) => (el.show ? el.show : el))
-            .filter((film) => film.language === language);
-        console.log('LANGUAGES ', slicedData);
-        return slicedData.slice(0, limit);
+    if (genre !== 'All' && language === 'All') {
+        return slicedData.filter((film) => film.genres.includes(genre)).slice(0, limit);
     }
+
+    if (language !== 'All' && genre === 'All') {
+        return slicedData.filter((film) => film.language === language).slice(0, limit);
+    }
+}
+
+export function checkEmptyFilms(films, filmsLimit, genre, language) {
+    const filteredFilms = films.length ? sliceFilms(films, filmsLimit, genre, language) : [];
+    if (filteredFilms.length) {
+        message.style.display = 'none';
+    } else {
+        message.innerText = 'Films Not Found';
+        message.style.display = 'block';
+    }
+    createCard(filteredFilms);
 }
 
 export function trimText(text) {

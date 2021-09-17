@@ -1,13 +1,13 @@
-import { createElement } from './create-element.js';
+import createElement from './createElement.js';
 import { fallbackSummary, fallbackImage } from './constants.js';
 import { trimText } from './helpers.js';
 
 const modal = document.getElementById('modal');
 
 export function showModal(film) {
-    // ------------- ADD TOGGLE CLASS
     modal.classList.remove('hideModal');
     modal.classList.add('showModal');
+
     document.body.style.overflow = 'hidden';
 
     let {
@@ -30,6 +30,7 @@ export function showModal(film) {
     const filmLanguage = createElement('p', 'class', 'modal__card-language');
     const filmGenres = createElement('ul', 'class', 'modal__card-genres');
 
+    // FALLBACK GENRE
     genres.length > 0
         ? genres.forEach((element) => {
               const filmGenre = createElement('li', 'class', 'modal__card-genres-item');
@@ -38,7 +39,7 @@ export function showModal(film) {
           })
         : filmGenres.append('unknown');
 
-    //---------------CHANGE
+    // FALLBACK IMAGE
     image
         ? filmImage.setAttribute('src', `${image.original}`)
         : filmImage.setAttribute('src', `${fallbackImage}`);
@@ -47,13 +48,16 @@ export function showModal(film) {
 
     filmTitle.innerText = name;
 
+    // FALLBACK SUMMARY
     summary === null || summary.length < 300 ? (summary += fallbackSummary) : summary;
     filmSummary.innerHTML = trimText(summary);
 
+    // FALLBACK FILM RAITING
     filmRating.innerText = `Rating : ${
         average === null ? (Math.random() * 10).toFixed(2) : average
     }`;
 
+    // FALLBACK FILM PREMIERE
     filmPremiere.innerText = `Premiere: ${
         premiered === null ? new Date().toISOString().slice(0, 10) : premiered
     }`;

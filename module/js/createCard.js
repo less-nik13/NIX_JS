@@ -1,8 +1,7 @@
+import createElement from './createElement.js';
 import { showModal } from './modal.js';
-import { createElement } from './create-element.js';
 import { checkFavourites, addToFavourites, removeFromFavourites } from './favourites.js';
 import { fallbackImage } from './constants.js';
-import { start } from './index.js';
 
 const cardsBlock = document.getElementById('cards');
 
@@ -12,9 +11,6 @@ export function createCard(filmsArray) {
     filmsArray.forEach((film) => {
         const cardItemWrapper = createElement('li', 'class', 'cards__item-wrapper');
         const cardItemInner = createElement('div', 'class', 'cards__inner');
-        // const cardItemWrapper = document.createElement('div', 'class', 'cards__item-wrapper');
-        // const cardItemInner = createElement('li', 'class', 'cards__inner');
-        // const cardItem = createElement('div', 'class', 'cards__item');
         const cardImage = createElement('img', 'class', 'cards__item-poster');
         const cardTitle = createElement('p', 'class', 'cards__item-title');
         const cardFavourite = createElement('button', 'class', 'cards__favourite');
@@ -54,12 +50,12 @@ export function createCard(filmsArray) {
             }
         });
 
-        //----------add for all films modal window on click event
+        //-------------------------------------------------------------- SHOW MODAL WINDOW IF WE CLICK ON CARD IMAGE
         cardItemInner.addEventListener('click', function () {
             showModal(film);
         });
 
-        //----------check favourites films
+        //-------------------------------------------------------------- WHEN CREATE CARD, CHECK ITSELF IS FAVOURITE
         checkFavourites(id, cardFavourite);
 
         cardsBlock.append(cardItemWrapper);

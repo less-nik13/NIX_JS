@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Module</title>
 </head>
 
@@ -23,18 +23,11 @@
                         <img src="../images/logo.png" alt="Logo Yoga">
                     </a>
 
-                    <button type="button" class="burger" id="burger">
-                        <span class="burger-line"></span>
-                        <span class="burger-line"></span>
-                        <span class="burger-line"></span>
-                        <span class="burger-line"></span>
-                    </button>
-
                     <div class="menu" id="menu">
                         <ul class="menu__list">
-                            <li class="menu__list-item"><a href="../Films/index.html"
-                                    class="menu__list-link menu__list-link--active">Films</a></li>
-                            <li class="menu__list-item"><a href="../Favourites/index.html"
+                            <li class="menu__list-item"><a href="/module/Films/index.html"
+                                    class="menu__list-link">Films</a></li>
+                            <li class="menu__list-item"><a href="/module/Favourites/index.html"
                                     class="menu__list-link">Favourites</a></li>
                         </ul>
                     </div>
@@ -55,20 +48,22 @@
                     <label for="genres">Genres: </label>
                     <select name="genres" id="genres">
                         <option value="All" selected>All</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Crime">Crime</option>
-                        <option value="Thriller">Thriller</option>
+                        <option value="Anime">Anime</option>
                         <option value="Comedy">Comedy</option>
+                        <option value="Crime">Crime</option>
+                        <option value="Drama">Drama</option>
                         <option value="Family">Family</option>
+                        <option value="Food">Food</option>
                         <option value="Music">Music</option>
                         <option value="Mystery">Mystery</option>
                         <option value="Science-Fiction">Science-Fiction</option>
                         <option value="Sports">Sports</option>
+                        <option value="Thriller">Thriller</option>
                     </select>
                 </div>
                 <div class="filters__languages">
                     <label for="languages">Language: </label>
-                    <select name="language" id="languages">
+                    <select name="languages" id="languages">
                         <option value="All" selected>All</option>
                         <option value="English">English</option>
                         <option value="Portuguese">Portuguese</option>
@@ -84,14 +79,19 @@
             </div>
 
             <section class="cards">
+                <h2 class="message"></h2>
                 <ul id="cards">
 
                 </ul>
             </section>
         </main>
+        <a id="button"></a>
     </div>
 
-    <a id="button"></a>
+    <footer id="footer">
+        <h4 class="footer__copyright">Copyright © <span class="copyright__date"></span><a href="../Films/index.html"
+                class="footer__link"> filmzz</a>. by Nikita Podgorniy</h4>
+    </footer>
 
     <script type="module" src="../js/index.js"></script>
 </body>

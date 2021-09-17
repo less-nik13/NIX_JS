@@ -1,15 +1,15 @@
 import { fetchData } from './fetchData.js';
-import { films, start } from './index.js';
+import { checkEmptyFilms } from './helpers.js';
+import { films, genre, language } from './index.js';
 
 export async function getFavourites() {
-    const favouriteFilmsIdetifiers = JSON.parse(localStorage.getItem('identifiers'));
-    await Promise.all(
-        favouriteFilmsIdetifiers.map(async function (filmId) {
-            const filmData = await fetchData('', filmId.id);
-            films.push(filmData);
-        }),
-    );
-    return films;
+    try {
+        const favouriteFilmsIdetifiers = JSON.parse(localStorage.getItem('identifiers'));
+        const requests = favouriteFilmsIdetifiers.map((filmId) => fetchData(filmId.id));
+        return await Promise.all(requests);
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 export function addToFavourites(id) {
@@ -32,14 +32,17 @@ export function removeFromFavourites(id) {
         'identifiers',
         JSON.stringify(identifiers.filter((el) => el.id !== id).sort((a, b) => a.id - b.id)),
     );
-    start(id);
+
+    if (window.location.pathname.includes('Favourites')) {
+        const index = films.findIndex((film) => film.id === id);
+        films.splice(index, 1);
+        checkEmptyFilms(films, films.length, genre, language);
+    }
 }
 
 export function checkFavourites(id, elem) {
     if (localStorage.getItem('identifiers')) {
-        const favourites = JSON.parse(localStorage.getItem('identifiers')).sort(
-            (a, b) => a.id - b.id,
-        );
+        const favourites = JSON.parse(localStorage.getItem('identifiers'));
 
         if (favourites.some((el) => el.id === id)) {
             elem.classList.add('active');

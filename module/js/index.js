@@ -1,32 +1,23 @@
-import { sliceFilms } from './helpers.js';
+import { checkEmptyFilms } from './helpers.js';
 import { getFavourites } from './favourites.js';
 import { fetchData } from './fetchData.js';
-import { createCard } from './createCard.js';
-import { createElement } from './create-element.js';
 
-// const burgerMenu = document.getElementById('burger');
-// const navbarMenu = document.getElementById('menu');
+const navigationLinks = document.querySelectorAll('.menu__list-link');
 const loader = document.getElementById('loader');
-
-const message = document.querySelector('.message');
-
-const pagination = document.querySelector('.pagination');
-// export const searchInput = document.getElementById('form__input');
-
 const scrollUpBtn = document.getElementById('button');
+const languages = document.getElementById('languages'); // SELECT WITH LANGUAGES
+const genres = document.getElementById('genres'); // SELECT WITH GENRES
+const pagination = document.querySelector('.pagination'); // LIST OF PAGES
+export const message = document.querySelector('.message'); // H2 TAG FOR TEXT MESSAGE
 
-const languages = document.getElementById('languages');
-const genres = document.getElementById('genres');
-
-let language = languages.options[languages.selectedIndex].value;
-let genre = genres.options[genres.selectedIndex].value;
-
-console.log('language', language);
-console.log('genre', genre);
+//-------------------------------------------------------------- GLOB VARIABLES
+export let language = languages.options[languages.selectedIndex].value; // filmsLimit OF LANGUAGE ON LOAD
+export let genre = genres.options[genres.selectedIndex].value; // filmsLimit OF GENRE ON LOAD
 
 export let page = 1;
 export let films = [];
-// SCROLL --------------------------------------------------------------
+
+//-------------------------------------------------------------- ADD SCROLL EVENT
 window.addEventListener('scroll', scrollUp);
 
 function scrollUp() {
@@ -37,87 +28,83 @@ function scrollUp() {
     }
 }
 
+//-------------------------------------------------------------- SCROLL TO TOP IF SCROLL BY AXIS Y  > 300
 scrollUpBtn.addEventListener('click', function (e) {
     window.scrollTo({
         top: 0,
         behavior: 'smooth',
     });
 });
-// --------------------------------------------------------------
 
-export async function start(id) {
+//-------------------------------------------------------------- CHANGE ACTIVE NAV LINK
+[...navigationLinks].forEach((link) => {
+    const currentPage = window.location.pathname;
+    if (link.href.includes(currentPage)) {
+        link.classList.add('menu__list-link--active');
+    }
+});
+
+//-------------------------------------------------------------- MAIN FUNCTION
+export async function start() {
+    document.querySelector('.copyright__date').innerText = new Date().getFullYear();
+
     if (window.location.pathname.includes('Films')) {
+        //-------------------------------------------------------------- GET ELEMENTS FROM FILMS PAGE
         const filmsOnPage = document.getElementById('items-per-page');
         const searchSubmit = document.getElementById('form__btn');
         const paginationItems = document.querySelectorAll('.numb');
         const searchInput = document.getElementById('form__input');
 
-        let value = filmsOnPage.options[filmsOnPage.selectedIndex].value;
+        let filmsLimit = filmsOnPage.options[filmsOnPage.selectedIndex].value; // LIMIT OF FILMS ON PAGE
 
-        searchSubmit.disabled = true;
+        loader.style.display = 'none';
 
-        // -------------------- CHECK FOR EMPTY INPUT
-        searchInput.addEventListener('input', function (e) {
-            searchSubmit.disabled = false;
+        searchSubmit.disabled = true; // DISABLE SEARCH BUTTON
+
+        //-------------------------------------------------------------- IF INPUT HAS ANY VALUE, ENABLE SEARCH BUTTON
+        searchInput.addEventListener('input', function () {
+            searchSubmit.disabled = false; // NOTE!!! IF WE TYPE ANY SYMBOLS, AND THEN DELETE THEM, BUTTON BE ENABLED
         });
 
-        searchSubmit.addEventListener('click', (e) => {
+        // NOTE!!! IF WE CLICK ON BUTTON WITH CLEAR INPUT VALUE, LOADED LAST VIEWED PAGE
+        searchSubmit.addEventListener('click', async (e) => {
             e.preventDefault();
-            // filmsOnPage.options[0].selected = true;
-            // value = filmsOnPage.options[filmsOnPage.selectedIndex].value;
 
-            pagination.style.display = 'none';
-            if (searchInput.value.trim() === '' && language === 'All' && genre === 'All') {
+            filmsOnPage.options[0].selected = true; // SET filmsLimit TO FIRST SELECT VALUE
+            filmsLimit = filmsOnPage.options[filmsOnPage.selectedIndex].value;
+
+            //-------------------------------------------------------------- DISABLE/ENABLE PAGINATION IF WE SEARCH FILMS
+            if (searchInput.value.trim() === '') {
                 pagination.style.display = 'block';
+            } else {
+                pagination.style.display = 'none';
             }
-            start();
+
+            films = await fetchData(searchInput.value.trim());
+            checkEmptyFilms(films, filmsLimit, genre, language);
         });
 
+        //-------------------------------------------------------------- PAGINATION
         filmsOnPage.addEventListener('change', function (e) {
-            value = e.target.options[filmsOnPage.selectedIndex].value;
-            const filteredFilms = sliceFilms(films, value, genre, language);
-            console.log('filteredFilms', filteredFilms);
-            createCard(filteredFilms);
+            filmsLimit = e.target.options[filmsOnPage.selectedIndex].value;
+            checkEmptyFilms(films, filmsLimit, genre, language);
         });
 
+        //-------------------------------------------------------------- LANGUAGES
         languages.addEventListener('change', function (e) {
             language = e.target.options[languages.selectedIndex].value;
-            const filteredFilms = sliceFilms(films, value, genre, language);
-
-            console.log('filteredFilms', filteredFilms);
-            if (filteredFilms.length) {
-                createCard(filteredFilms);
-                message.style.display = 'none';
-                // pagination.style.display = 'block';
-            } else {
-                // pagination.style.display = 'none';
-                message.innerText = 'Films Not Found';
-                message.style.display = 'block';
-                createCard(filteredFilms);
-            }
+            checkEmptyFilms(films, filmsLimit, genre, language);
         });
 
+        //-------------------------------------------------------------- GENRES
         genres.addEventListener('change', function (e) {
             genre = e.target.options[genres.selectedIndex].value;
-            const filteredFilms = sliceFilms(films, value, genre, language);
-
-            console.log('filteredFilms', filteredFilms);
-            if (filteredFilms.length) {
-                createCard(filteredFilms);
-                message.style.display = 'none';
-                // pagination.style.display = 'block';
-            } else {
-                // pagination.style.display = 'none';
-
-                message.innerText = 'Films Not Found';
-                message.style.display = 'block';
-                createCard(filteredFilms);
-            }
+            checkEmptyFilms(films, filmsLimit, genre, language);
         });
 
         paginationItems.forEach((el) =>
-            el.addEventListener('click', function () {
-                // Берём все элементы на которые не кликнули, и удаляем у них активный класс
+            el.addEventListener('click', async function () {
+                // TAKE ALL ITEMS, THAT NOT CLICKED, AND REMOVE FROM THEM ACTIVE CLASS
                 const notClickedLinks = [...paginationItems].filter((notClickedLink) => {
                     return notClickedLink !== el;
                 });
@@ -129,120 +116,38 @@ export async function start(id) {
                 if (!el.classList.contains('active')) {
                     page = +el.innerText;
                     el.classList.add('active');
-                    start();
+
+                    //-------------------------------------------------------------- LOAD FILMS WHEN PAGE CHANGE
+                    films = await fetchData();
+                    checkEmptyFilms(films, filmsLimit, genre, language);
                 }
             }),
         );
 
-        loader.style.display = 'none';
-        films = await fetchData(searchInput);
-        const filteredFilms = sliceFilms(films, value, genre, language);
-        console.log(value, genre, language);
-        console.log('FILMS', filteredFilms);
-        createCard(filteredFilms);
+        //-------------------------------------------------------------- LOAD FILMS
+        films = await fetchData();
+        if (films.length) {
+            pagination.style.display = 'block';
+            checkEmptyFilms(films, filmsLimit, genre, language);
+        }
     }
 
+    //-------------------------------------------------------------- FAVOURITES
     if (window.location.pathname.includes('Favourites')) {
         languages.addEventListener('change', function (e) {
             language = e.target.options[languages.selectedIndex].value;
-            createCard(sliceFilms(films, films.length, genre, language));
+            checkEmptyFilms(films, films.length, genre, language);
         });
 
         genres.addEventListener('change', function (e) {
             genre = e.target.options[genres.selectedIndex].value;
-            createCard(sliceFilms(films, films.length, genre, language));
+            checkEmptyFilms(films, films.length, genre, language);
         });
-        if (films.length > 0) {
-            films = [...films].filter((film) => film.id !== id);
-            createCard(films);
-        } else {
-            films = await getFavourites();
-            loader.style.display = 'none';
-            createCard(films);
-        }
+
+        loader.style.display = 'none';
+        films = await getFavourites();
+        checkEmptyFilms(films, films.length, genre, language);
     }
 }
 
 start();
-
-let totalPages = 5;
-// let page = 1;
-
-//calling function with passing parameters and adding inside element which is ul tag
-// element.innerHTML = createPagination(totalPages, page);
-
-// function createPagination(totalPages, page) {
-//     let liTag = '';
-//     let active;
-//     let beforePage = page - 1;
-//     let afterPage = page + 1;
-
-//     //show the next button if the page value is greater than 1
-//     if (page > 1) {
-//         liTag += `<li class="btn prev" onclick="createPagination(totalPages, ${
-//             page - 1
-//         })"><span>Prev</span></li>`;
-//     }
-
-//     //if page value is less than 2 then add 1 after the previous button
-//     if (page > 2) {
-//         liTag += `<li class="first numb" onclick="createPagination(totalPages, 1)"><span>1</span></li>`;
-
-//         //if page value is greater than 3 then add this (...) after the first li or page
-//         if (page > 3) {
-//             liTag += `<li class="dots"><span>...</span></li>`;
-//         }
-//     }
-
-//     // how many pages or li show before the current li
-//     if (page == totalPages) {
-//         beforePage = beforePage - 2;
-//     } else if (page == totalPages - 1) {
-//         beforePage = beforePage - 1;
-//     }
-//     // how many pages or li show after the current li
-//     if (page == 1) {
-//         afterPage = afterPage + 2;
-//     } else if (page == 2) {
-//         afterPage = afterPage + 1;
-//     }
-
-//     for (var plength = beforePage; plength <= afterPage; plength++) {
-//         if (plength > totalPages) {
-//             //if plength is greater than totalPage length then continue
-//             continue;
-//         }
-//         if (plength == 0) {
-//             //if plength is 0 than add +1 in plength value
-//             plength = plength + 1;
-//         }
-//         if (page == plength) {
-//             //if page is equal to plength than assign active string in the active variable
-//             active = 'active';
-//         } else {
-//             //else leave empty to the active variable
-//             active = '';
-//         }
-//         liTag += `<li class="numb ${active}" onclick="createPagination(totalPages, ${plength})"><span>${plength}</span></li>`;
-//     }
-
-//     if (page < totalPages - 1) {
-//         //if page value is less than totalPage value by -1 then show the last li or page
-//         if (page < totalPages - 2) {
-//             //if page value is less than totalPage value by -2 then add this (...) before the last li or page
-//             liTag += `<li class="dots"><span>...</span></li>`;
-//         }
-//         liTag += `<li class="last numb" onclick="createPagination(totalPages, ${totalPages})"><span>${totalPages}</span></li>`;
-//     }
-
-//     if (page < totalPages) {
-//         //show the next button if the page value is less than totalPage(20)
-//         liTag += `<li class="btn next" onclick="createPagination(totalPages, ${
-//             page + 1
-//         })"><span>Next <i class="fas fa-angle-right"></i></span></li>`;
-//     }
-
-//     console.log(page);
-//     element.innerHTML = liTag; //add li tag inside ul tag
-//     return liTag; //reurn the li tag
-// }
