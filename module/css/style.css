@@ -489,13 +489,16 @@ select {
 
 /* //pagination */
 .pagination {
-    max-width: 325px;
-    margin: 50px auto 20px;
+    margin: 10px auto 0;
+    width: 300px;
     background: #fff;
     padding: 8px;
     border-radius: 8px;
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
     display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
 }
 
 .pagination ul {
@@ -577,7 +580,7 @@ select {
     height: 50px;
     color: #fff;
     background-color: rgb(135, 135, 179);
-    margin-top: 30px;
+    margin-top: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -592,4 +595,84 @@ select {
 
 .footer__link:hover {
     color: #92c796;
+}
+
+
+.pages {
+    display: none;
+    background: #fff;
+    width: 325px;
+    margin: 50px auto 30px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pages__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-numbers {
+    font-size: 26px;
+    user-select: none;
+    padding: 15px;
+}
+
+.pagination-list {
+    color: #8787b3;
+    font-size: 22px;
+    border-bottom: 1px solid #8787b3;
+    margin: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination-list.active {
+    color: #92c796;
+    border-bottom: 1px solid #92c796;
+}
+
+.pagination-list:hover {
+    color: #92c796;
+    border-bottom: 1px solid #92c796;
+}
+
+.pagination-list.active:hover {
+    color: #8787b3;
+    border-bottom: 1px solid #8787b3;
+}
+
+.prev-btn {
+    border: solid #8787b3;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 6px;
+    cursor: pointer;
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    transition: all 0.3s ease;
+}
+
+.prev-btn:hover {
+    border: solid #92c796;
+    border-width: 0 3px 3px 0;
+}
+
+.next-btn {
+    border: solid #8787b3;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 6px;
+    cursor: pointer;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+    border: solid #92c796;
+    border-width: 0 3px 3px 0;
 }

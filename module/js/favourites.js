@@ -4,8 +4,8 @@ import { films, genre, language } from './index.js';
 
 export async function getFavourites() {
     try {
-        const favouriteFilmsIdetifiers = JSON.parse(localStorage.getItem('identifiers'));
-        const requests = favouriteFilmsIdetifiers.map((filmId) => fetchData(filmId.id));
+        const favouriteFilmsIdentifiers = JSON.parse(localStorage.getItem('identifiers'));
+        const requests = favouriteFilmsIdentifiers.map((filmId) => fetchData(filmId.id));
         return await Promise.all(requests);
     } catch (err) {
         console.log(err);
@@ -21,7 +21,7 @@ export function addToFavourites(id) {
         identifiers.push(...JSON.parse(localStorage.getItem('identifiers')), { id });
         localStorage.setItem(
             'identifiers',
-            JSON.stringify(identifiers.sort((a, b) => a.id - b.id)),
+            JSON.stringify(identifiers),
         );
     }
 }
@@ -30,7 +30,7 @@ export function removeFromFavourites(id) {
     const identifiers = JSON.parse(localStorage.getItem('identifiers'));
     localStorage.setItem(
         'identifiers',
-        JSON.stringify(identifiers.filter((el) => el.id !== id).sort((a, b) => a.id - b.id)),
+        JSON.stringify(identifiers.filter((el) => el.id !== id)),
     );
 
     if (window.location.pathname.includes('Favourites')) {
