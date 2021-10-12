@@ -1,11 +1,11 @@
-import { fetchData } from './fetchData.js';
-import { checkEmptyFilms } from './helpers.js';
-import { films, genre, language } from './index.js';
+import {fetchData} from './fetchData.js';
+import {checkEmptyFilms} from './helpers.js';
+import {films, genre, language} from './index.js';
 
 export async function getFavourites() {
     try {
         const favouriteFilmsIdentifiers = JSON.parse(localStorage.getItem('identifiers'));
-        const requests = favouriteFilmsIdentifiers.map((filmId) => fetchData(filmId.id));
+        const requests = favouriteFilmsIdentifiers.map((filmId) => fetchData({ filmId: filmId.id }));
         return await Promise.all(requests);
     } catch (err) {
         console.log(err);
@@ -28,10 +28,7 @@ export function addToFavourites(id) {
 
 export function removeFromFavourites(id) {
     const identifiers = JSON.parse(localStorage.getItem('identifiers'));
-    localStorage.setItem(
-        'identifiers',
-        JSON.stringify(identifiers.filter((el) => el.id !== id)),
-    );
+    localStorage.setItem('identifiers', JSON.stringify(identifiers.filter((el) => el.id !== id)));
 
     if (window.location.pathname.includes('Favourites')) {
         const index = films.findIndex((film) => film.id === id);

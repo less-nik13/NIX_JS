@@ -1,27 +1,12 @@
 import createElement from './createElement.js';
-import { fallbackSummary, fallbackImage } from './constants.js';
-import { trimText } from './helpers.js';
+import {fallbackSummary, fallbackImage} from './constants.js';
+import {trimText} from './helpers.js';
 
 const modal = document.getElementById('modal');
 
 export function showModal(film) {
-    modal.classList.remove('hideModal');
-    modal.classList.add('showModal');
-
-    document.body.style.overflow = 'hidden';
-
-    let {
-        name,
-        genres,
-        language,
-        premiered,
-        rating: { average },
-        summary,
-        image,
-    } = film;
-
     const filmCard = createElement('div', 'class', 'modal__card');
-    const filmContentWrapper = createElement('div', 'class', 'modal__content-wrapper');
+    const filmContentWrapper = createElement('div', 'class', 'modal__card-content');
     const filmImage = createElement('img', 'class', 'modal__card-image');
     const filmTitle = createElement('h2', 'class', 'modal__card-title');
     const filmSummary = createElement('div', 'class', 'modal__card-summary');
@@ -30,40 +15,61 @@ export function showModal(film) {
     const filmLanguage = createElement('p', 'class', 'modal__card-language');
     const filmGenres = createElement('ul', 'class', 'modal__card-genres');
 
+    let {
+        name,
+        genres,
+        language,
+        premiered,
+        rating: {average},
+        summary,
+        image,
+    } = film;
+
+    document.body.style.overflow = 'hidden';
+    modal.classList.remove('modal__overlay--hide');
+    modal.classList.add('modal__overlay--show');
+
     // FALLBACK GENRE
-    genres.length > 0
-        ? genres.forEach((element) => {
-              const filmGenre = createElement('li', 'class', 'modal__card-genres-item');
-              filmGenre.innerText = element;
-              filmGenres.append(filmGenre);
-          })
-        : filmGenres.append('unknown');
+    if (genres.length > 0) {
+        genres.forEach((genre) => {
+            const filmGenre = createElement('li', 'class', 'modal__card-genres-item');
+            filmGenre.innerText = genre;
+            filmGenres.append(filmGenre);
+        });
+    } else {
+        filmGenres.append('unknown');
+    }
 
     // FALLBACK IMAGE
-    image
-        ? filmImage.setAttribute('src', `${image.original}`)
-        : filmImage.setAttribute('src', `${fallbackImage}`);
-
-    filmImage.setAttribute('alt', `${name}`);
-
-    filmTitle.innerText = name;
+    if (image) {
+        filmImage.setAttribute('src', `${image.original}`);
+    } else {
+        filmImage.setAttribute('src', `${fallbackImage}`);
+    }
 
     // FALLBACK SUMMARY
-    summary === null || summary.length < 300 ? (summary += fallbackSummary) : summary;
-    filmSummary.innerHTML = trimText(summary);
+    if (!summary) {
+        summary = fallbackSummary;
+    } else if (summary.length < 300) {
+        summary += fallbackSummary;
+    }
 
-    // FALLBACK FILM RAITING
-    filmRating.innerText = `Rating : ${
-        average === null ? (Math.random() * 10).toFixed(2) : average
-    }`;
+    // FALLBACK FILM RATING
+    if (!average) {
+        average = (Math.random() * 10).toFixed(1);
+    }
 
     // FALLBACK FILM PREMIERE
-    filmPremiere.innerText = `Premiere: ${
-        premiered === null ? new Date().toISOString().slice(0, 10) : premiered
-    }`;
+    if (!premiered) {
+        premiered = new Date().toISOString().slice(0, 10);
+    }
 
+    filmImage.setAttribute('alt', `${name}`);
+    filmTitle.innerText = name;
+    filmSummary.innerHTML = trimText(summary);
     filmLanguage.innerText = `Language: ${language}`;
-
+    filmRating.innerText = `Rating : ${average}`;
+    filmPremiere.innerText = `Premiere: ${premiered}`;
     filmContentWrapper.append(
         filmTitle,
         filmLanguage,
@@ -73,15 +79,15 @@ export function showModal(film) {
         filmRating,
         filmPremiere,
     );
-
     filmCard.append(filmImage, filmContentWrapper);
     modal.append(filmCard);
 }
 
-modal.addEventListener('click', function (e) {
+// HIDE MODAL CARD, WHEN CLICK ON EMPTY SPACE
+modal.addEventListener('click', (e) => {
     if (!e.target.closest('.modal__card')) {
-        modal.classList.add('hideModal');
-        modal.classList.remove('showModal');
+        modal.classList.add('modal__overlay--hide');
+        modal.classList.remove('modal__overlay--show');
         modal.innerHTML = '';
         document.body.style.overflowY = 'scroll';
     }

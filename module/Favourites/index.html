@@ -11,89 +11,90 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Module</title>
+    <title>Favourites</title>
 </head>
 
 <body>
-    <header class="header">
-        <nav class="navbar">
-            <div class="container">
-                <div class="navbar__wrapper">
-                    <a href="#" class="logo">
-                        <img src="../images/logo.png" alt="Logo Yoga">
-                    </a>
-
-                    <div class="menu" id="menu">
-                        <ul class="menu__list">
-                            <li class="menu__list-item"><a href="/module/Films/index.html"
-                                    class="menu__list-link">Films</a></li>
-                            <li class="menu__list-item"><a href="/module/Favourites/index.html"
-                                    class="menu__list-link">Favourites</a></li>
-                        </ul>
-                    </div>
+<header class="header">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar__wrapper">
+                <a href="../Films.html" class="logo">
+                    <img src="../images/logo.png" alt="Logo Yoga">
+                </a>
+                <div class="menu" id="menu">
+                    <ul class="menu__list">
+                        <li class="menu__list-item">
+                            <a class="menu__list-link" href="/module/Films/index.html">
+                                Films
+                            </a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a class="menu__list-link" href="/module/Favourites/index.html">
+                                Favourites
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-
-    <div id="modal" class="modal__overlay hideModal">
-    </div>
-
+        </div>
+    </nav>
+</header>
+<main id="main">
+    <div id="modal" class="modal__overlay modal__overlay--hide"></div>
     <div class="container">
-        <main id="main">
-            <h1 class="films__title">Favourites</h1>
-
-            <div class="filters">
-                <div class="filters__genres">
-                    <label for="genres">Genres: </label>
-                    <select name="genres" id="genres">
-                        <option value="All" selected>All</option>
-                        <option value="Anime">Anime</option>
-                        <option value="Comedy">Comedy</option>
-                        <option value="Crime">Crime</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Family">Family</option>
-                        <option value="Food">Food</option>
-                        <option value="Music">Music</option>
-                        <option value="Mystery">Mystery</option>
-                        <option value="Science-Fiction">Science-Fiction</option>
-                        <option value="Sports">Sports</option>
-                        <option value="Thriller">Thriller</option>
-                    </select>
-                </div>
-                <div class="filters__languages">
-                    <label for="languages">Language: </label>
-                    <select name="languages" id="languages">
-                        <option value="All" selected>All</option>
-                        <option value="English">English</option>
-                        <option value="Portuguese">Portuguese</option>
-                        <option value="Japanese">Japanese</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="German">German</option>
-                    </select>
-                </div>
+        <h1 class="films__title">Favourites</h1>
+        <div id="loader">
+            <div class="lds-dual-ring"></div>
+        </div>
+        <div class="filters">
+            <div class="filters__genres">
+                <label for="genres">Genres: </label>
+                <select id="genres" name="genres">
+                    <option value="All" selected>All</option>
+                    <option value="Anime">Anime</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Crime">Crime</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Family">Family</option>
+                    <option value="Food">Food</option>
+                    <option value="Music">Music</option>
+                    <option value="Mystery">Mystery</option>
+                    <option value="Science-Fiction">Science-Fiction</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Thriller">Thriller</option>
+                </select>
             </div>
-
-            <div id="loader">
-                <div class="lds-dual-ring"></div>
+            <div class="filters__languages">
+                <label for="languages">Language: </label>
+                <select id="languages" name="languages">
+                    <option value="All" selected>All</option>
+                    <option value="English">English</option>
+                    <option value="Portuguese">Portuguese</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="German">German</option>
+                </select>
             </div>
-
-            <section class="cards">
-                <h2 class="message"></h2>
-                <ul id="cards">
-
-                </ul>
-            </section>
-        </main>
-        <a id="button"></a>
+        </div>
+        <div class="cards">
+            <h2 id="message"></h2>
+            <ul id="cards">
+            </ul>
+        </div>
+        <a id="scroll-up__button"></a>
     </div>
+</main>
+<footer id="footer">
+    <h4 class="footer__copyright">
+        Copyright ©
+        <span id="footer__date"></span>
+        <a class="footer__link" href="../Films/index.html"> filmzz</a>.
+        by Nikita Podgorniy
+    </h4>
+</footer>
 
-    <footer id="footer">
-        <h4 class="footer__copyright">Copyright © <span class="copyright__date"></span><a href="../Films/index.html"
-                class="footer__link"> filmzz</a>. by Nikita Podgorniy</h4>
-    </footer>
-
-    <script type="module" src="../js/index.js"></script>
+<script type="module" src="../js/index.js"></script>
 </body>
 
 </html>

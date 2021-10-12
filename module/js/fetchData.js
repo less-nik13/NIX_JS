@@ -1,15 +1,15 @@
-import { page } from './index.js';
+import {API_URL} from "./constants.js";
 
-export async function fetchData(param) {
+export async function fetchData({filmId, searchStr, page}) {
     try {
-        if (param !== undefined && typeof param === 'number') {
-            const getData = await fetch(`http://api.tvmaze.com/shows/${param}`);
+        if (filmId) {
+            const getData = await fetch(`${API_URL}/shows/${filmId}`);
             return await getData.json();
-        } else if (param !== '' && typeof param === 'string') {
-            const getData = await fetch(`http://api.tvmaze.com/search/shows?q=${param}`);
+        } else if (searchStr) {
+            const getData = await fetch(`${API_URL}/search/shows?q=${searchStr}`);
             return await getData.json();
-        } else {
-            const getData = await fetch(`http://api.tvmaze.com/shows?page=${page}`);
+        } else if (page) {
+            const getData = await fetch(`${API_URL}/shows?page=${page}`);
             return await getData.json();
         }
     } catch (err) {
