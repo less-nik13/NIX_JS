@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Nikita Podgorniy">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Films</title>
+</head>
+
+<body>
+<header class="header">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar__wrapper">
+                <a href="./" class="logo">
+                    <img src="../images/logo.png" alt="Logo Yoga">
+                </a>
+                <div id="menu" class="menu">
+                    <ul class="menu__list">
+                        <li class="menu__list-item">
+                            <a class="menu__list-link" href="/module/Films/index.html">Films</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a class="menu__list-link" href="/module/Favourites/index.html">Favourites</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<main id="main">
+    <div id="modal" class="modal__overlay modal__overlay--hide"></div>
+    <div class="container">
+        <div class="content">
+            <h1 class="films__title">Films</h1>
+            <div id="loader">
+                <div class="lds-dual-ring"></div>
+            </div>
+            <form id="form">
+                <div class="form__wrapper">
+                    <input id="form__input" autocomplete="off" type="text" placeholder="Enter film name" name="film"
+                           maxlength="10">
+                    <button id="form__btn" type="submit">Find</button>
+                </div>
+            </form>
+            <div class="filters">
+                <!-- SELECT GENRES -->
+                <div class="filters__genres">
+                    <label for="genres">Genres: </label>
+                    <select id="genres" name="genres">
+                        <option value="All" selected>All</option>
+                        <option value="Anime">Anime</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Crime">Crime</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Family">Family</option>
+                        <option value="Food">Food</option>
+                        <option value="Music">Music</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Science-Fiction">Science-Fiction</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Thriller">Thriller</option>
+                    </select>
+                </div>
+                <!-- SELECT LANGUAGES -->
+                <div class="filters__languages">
+                    <label for="languages">Language: </label>
+                    <select id="languages" name="languages">
+                        <option value="All" selected>All</option>
+                        <option value="English">English</option>
+                        <option value="Portuguese">Portuguese</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="German">German</option>
+                    </select>
+                </div>
+                <!-- SELECT FILMS ON PAGE -->
+                <div class="filters__page-items">
+                    <label for="films-per-page">Films On Page:</label>
+                    <select id="films-per-page" name="films">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+            <!-- FILM CARDS -->
+            <div class="cards">
+                <h2 id="message"></h2>
+                <ul id="cards">
+                </ul>
+            </div>
+            <div id="pages">
+                <div class="pages__wrapper">
+                    <div class="pages__btn pages__prev-btn"></div>
+                    <div class="pages__page-numbers">
+                        <span id="pages__active-page-number"></span>
+                        <span id="pages__pagination-list">of</span>
+                        <span id="pages__max-pages-count"></span>
+                    </div>
+                    <div class="pages__btn pages__next-btn"></div>
+                </div>
+                <div id="pagination">
+                    <ul>
+                        <li class="pagination__page-number">1</li>
+                        <li class="pagination__page-number">2</li>
+                        <li class="pagination__page-number">3</li>
+                        <li class="pagination__page-number">4</li>
+                        <li class="pagination__page-number">5</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <a id="scroll-up__button"></a>
+    </div>
+</main>
+<footer id="footer">
+    <h4 class="footer__copyright">
+        Copyright ©
+        <span id="footer__date"></span>
+        <a class="footer__link" href="../Films/index.html"> filmzz</a>.
+        by Nikita Podgorniy
+    </h4>
+</footer>
+
+<script type="module" src="../js/index.js"></script>
+</body>
+
+</html>
