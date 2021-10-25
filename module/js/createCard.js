@@ -1,7 +1,7 @@
 import createElement from './createElement.js';
-import {showModal} from './modal.js';
-import {checkFavourites, addToFavourites, removeFromFavourites} from './favourites.js';
-import {fallbackImage} from './constants.js';
+import { showModal } from './modal.js';
+import { checkFavourites, addToFavourites, removeFromFavourites } from './favourites.js';
+import { fallbackImage } from './constants.js';
 
 const cardsBlock = document.getElementById('cards');
 
@@ -15,17 +15,11 @@ export function createCard(filmsArray) {
         const cardTitle = createElement('p', 'class', 'cards__item-title');
         const cardFavourite = createElement('button', 'class', 'cards__favourite');
 
-        const {id, image, name} = film;
+        const { id, image, name } = film;
 
-        if (image) {
-            cardImage.setAttribute('src', `${image.medium}`);
-        } else {
-            cardImage.setAttribute('src', fallbackImage);
-        }
-
-        //-------------------------------------------------------------- ADD/REMOVE FILM TO/FROM FAVOURITES
-        cardFavourite.addEventListener('click', function () {
-            if (!this.classList.contains('active')) {
+        //  ADD/REMOVE FILM TO/FROM FAVOURITES
+        cardFavourite.addEventListener('click', function() {
+            if(!this.classList.contains('active')) {
                 this.classList.add('active');
                 addToFavourites(id);
             } else {
@@ -34,14 +28,15 @@ export function createCard(filmsArray) {
             }
         });
 
-        //-------------------------------------------------------------- SHOW MODAL WINDOW WHEN WE CLICK ON CARD IMAGE
+        //  SHOW MODAL WINDOW WHEN WE CLICK ON CARD IMAGE
         cardItemInner.addEventListener('click', () => {
             showModal(film);
         });
 
-        //-------------------------------------------------------------- WHEN CREATE CARD, CHECK ITSELF IS IT FAVOURITE
+        //  WHEN CREATE CARD, CHECK ITSELF IS IT FAVOURITE
         checkFavourites(id, cardFavourite);
 
+        cardImage.setAttribute('src', `${image ? image.medium : fallbackImage}`);
         cardImage.setAttribute('alt', `${name}`);
         cardTitle.innerHTML = name;
         cardFavourite.innerHTML = `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

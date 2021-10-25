@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Nikita Podgorniy">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Login</title>
+</head>
+
+<body>
+<main id="main">
+    <div class="login">
+        <form class="login__form">
+            <h1 class="login__title">Login</h1>
+            <div class="login__row">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" autocomplete="off" placeholder="email@example.com" required>
+                <span id="login__helper-email"></span>
+            </div>
+            <div class="login__row">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" required>
+                <span id="login__helper-password"></span>
+            </div>
+            <button id="login__button" type="submit">Login</button>
+        </form>
+    </div>
+</main>
+<footer id="footer">
+    <h4 class="footer__copyright">
+        Copyright ©
+        <span id="footer__date"></span>
+        <span class="footer__link">filmzz.</span>
+        by Nikita Podgorniy
+    </h4>
+</footer>
+
+<script type="module" src="../js/index.js"></script>
+</body>
+
+</html>
