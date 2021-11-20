@@ -1,5 +1,3 @@
-import { start } from "./mainPages.js";
-
 export function createUser() {
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
@@ -13,7 +11,7 @@ export function createUser() {
             email: emailInput.value,
             password: passwordInput.value,
             loginEmailHelper,
-            loginPasswordHelper
+            loginPasswordHelper,
         };
         const validCredentials = validateUserCredentials(formElements);
 
@@ -21,56 +19,57 @@ export function createUser() {
             const newUser = {
                 email: emailInput.value,
                 password: passwordInput.value,
-                favourites: []
+                favourites: [],
             };
 
-            emailInput.value = "";
-            passwordInput.value = "";
+            emailInput.value = '';
+            passwordInput.value = '';
 
-            localStorage.setItem("user", JSON.stringify(newUser));
-            window.location.assign("/module/Films");
+            localStorage.setItem('user', JSON.stringify(newUser));
+            window.location.assign('/Films');
         }
     });
 }
 
 function validateUserCredentials({ email, password, loginEmailHelper, loginPasswordHelper }) {
-    const reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const reg =
+        /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-    if((email && !reg.test(email.toLowerCase())) && (password && password.length < 8)) {
-        loginEmailHelper.innerText = "Email is incorrect. Please enter a valid email!";
-        loginPasswordHelper.innerText = "Password length must be at least 8 characters.";
+    if(email && !reg.test(email.toLowerCase()) && password && password.length < 8) {
+        loginEmailHelper.innerText = 'Email is incorrect. Please enter a valid email!';
+        loginPasswordHelper.innerText = 'Password length must be at least 8 characters.';
         return false;
     } else if(!email && !password) {
-        loginPasswordHelper.innerText = "Password field is required and cannot be empty.";
-        loginEmailHelper.innerText = "Email field is required and cannot be empty.";
+        loginPasswordHelper.innerText = 'Password field is required and cannot be empty.';
+        loginEmailHelper.innerText = 'Email field is required and cannot be empty.';
         return false;
-    } else if((email && reg.test(email.toLowerCase())) && !password) {
-        loginEmailHelper.innerText = "";
-        loginPasswordHelper.innerText = "Password field is required and cannot be empty.";
+    } else if(email && reg.test(email.toLowerCase()) && !password) {
+        loginEmailHelper.innerText = '';
+        loginPasswordHelper.innerText = 'Password field is required and cannot be empty.';
         return false;
-    } else if((email && !reg.test(email.toLowerCase())) && !password) {
-        loginEmailHelper.innerText = "Email is incorrect. Please enter a valid email!";
-        loginPasswordHelper.innerText = "Password field is required and cannot be empty.";
+    } else if(email && !reg.test(email.toLowerCase()) && !password) {
+        loginEmailHelper.innerText = 'Email is incorrect. Please enter a valid email!';
+        loginPasswordHelper.innerText = 'Password field is required and cannot be empty.';
         return false;
-    } else if((password && password.length >= 8) && !email) {
-        loginPasswordHelper.innerText = "";
-        loginEmailHelper.innerText = "Email field is required and cannot be empty.";
+    } else if(password && password.length >= 8 && !email) {
+        loginPasswordHelper.innerText = '';
+        loginEmailHelper.innerText = 'Email field is required and cannot be empty.';
         return false;
     } else if((password && password.length) < 8 && !email) {
-        loginEmailHelper.innerText = "Email field is required and cannot be empty.";
-        loginPasswordHelper.innerText = "Password length must be at least 8 characters.";
+        loginEmailHelper.innerText = 'Email field is required and cannot be empty.';
+        loginPasswordHelper.innerText = 'Password length must be at least 8 characters.';
         return false;
-    } else if((email && reg.test(email.toLowerCase())) && (password && password.length < 8)) {
-        loginEmailHelper.innerText = "";
-        loginPasswordHelper.innerText = "Password length must be at least 8 characters.";
+    } else if(email && reg.test(email.toLowerCase()) && password && password.length < 8) {
+        loginEmailHelper.innerText = '';
+        loginPasswordHelper.innerText = 'Password length must be at least 8 characters.';
         return false;
-    } else if((password && password.length >= 8) && (email && !reg.test(email.toLowerCase()))) {
-        loginPasswordHelper.innerText = "";
-        loginEmailHelper.innerText = "Email is incorrect. Please enter a valid email!";
+    } else if(password && password.length >= 8 && email && !reg.test(email.toLowerCase())) {
+        loginPasswordHelper.innerText = '';
+        loginEmailHelper.innerText = 'Email is incorrect. Please enter a valid email!';
         return false;
-    } else if((email && reg.test(email.toLowerCase())) && (password && password.length >= 8)) {
-        loginPasswordHelper.innerText = "";
-        loginEmailHelper.innerText = "";
+    } else if(email && reg.test(email.toLowerCase()) && password && password.length >= 8) {
+        loginPasswordHelper.innerText = '';
+        loginEmailHelper.innerText = '';
         return true;
     }
 }

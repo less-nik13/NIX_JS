@@ -8,15 +8,15 @@ const scrollUpBtn = document.getElementById('scroll-up__button');
 const languages = document.getElementById('languages'); //  SELECT OF LANGUAGES
 const genres = document.getElementById('genres'); //  SELECT OF GENRES
 const filmsOnPage = document.getElementById('films-per-page'); //  SELECT OF FILMS LIMIT
+const logoutBtn = document.getElementById('menu__logout-button');
 
 // GLOBAL VARIABLES
 const modal = document.getElementById('modal');
 export const message = document.getElementById('message'); // H2 TAG FOR TEXT MESSAGE
-export let language = languages.options[languages.selectedIndex].value; // filmsLimit OF LANGUAGE ON LOAD
-export let genre = genres.options[genres.selectedIndex].value; // filmsLimit OF GENRE ON LOAD
+export let language = languages?.options[languages.selectedIndex].value; // filmsLimit OF LANGUAGE ON LOAD
+export let genre = genres?.options[genres.selectedIndex].value; // filmsLimit OF GENRE ON LOAD
 export let page = 1;
 export let films = [];
-
 
 // SHOW/HIDE SCROLL SCROLL UP BUTTON
 window.addEventListener('scroll', () => {
@@ -25,14 +25,6 @@ window.addEventListener('scroll', () => {
     } else {
         scrollUpBtn.classList.remove('show');
     }
-});
-
-//  SCROLL TO TOP WHEN SCROLL BY AXIS Y > 300 AND WE CLICK ON SCROLL UP BUTTON
-scrollUpBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-    });
 });
 
 //  CHANGE ACTIVE NAV LINK
@@ -44,15 +36,35 @@ scrollUpBtn.addEventListener('click', () => {
 });
 
 export async function start() {
+    //  SCROLL TO TOP WHEN SCROLL BY AXIS Y > 300 AND WE CLICK ON SCROLL UP BUTTON
+    scrollUpBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    });
+
+    // HIDE MODAL CARD, WHEN CLICK ON EMPTY SPACE
+    modal.addEventListener('click', (e) => {
+        if(!e.target.closest('.modal__card')) {
+            modal.classList.add('modal__overlay--hide');
+            modal.classList.remove('modal__overlay--show');
+            modal.innerHTML = '';
+            document.body.style.overflowY = 'scroll';
+        }
+    });
+
     languages.addEventListener('change', (e) => {
         language = e.target.options[languages.selectedIndex].value;
 
         const renderOptions = {
             films,
-            filmsLimit: filmsOnPage ? filmsOnPage.options[filmsOnPage.selectedIndex].value : films.length,
+            filmsLimit: filmsOnPage
+                ? filmsOnPage.options[filmsOnPage.selectedIndex].value
+                : films.length,
             genre,
             language,
-            message
+            message,
         };
 
         checkEmptyFilms(renderOptions);
@@ -63,17 +75,24 @@ export async function start() {
 
         const renderOptions = {
             films,
-            filmsLimit: filmsOnPage ? filmsOnPage.options[filmsOnPage.selectedIndex].value : films.length,
+            filmsLimit: filmsOnPage
+                ? filmsOnPage.options[filmsOnPage.selectedIndex].value
+                : films.length,
             genre,
             language,
-            message
+            message,
         };
 
         checkEmptyFilms(renderOptions);
     });
 
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('user');
+        window.location.replace('/Login');
+    });
+
     //  FILMS PAGE
-    if(window.location.pathname.includes('Films') && localStorage.getItem("user")) {
+    if(window.location.pathname.includes('Films') && localStorage.getItem('user')) {
         const searchSubmit = document.getElementById('form__btn');
         const searchInput = document.getElementById('form__input');
         const pagesBlock = document.getElementById('pages');
@@ -90,8 +109,8 @@ export async function start() {
 
         loader.style.display = 'none';
         activePageNumber.innerText = page;
-        maxPageNumber.innerText = `${pagesRange[ 1 ]}`;
-        paginationItems[ page - 1 ].classList.add('active');
+        maxPageNumber.innerText = `${pagesRange[1]}`;
+        paginationItems[page - 1].classList.add('active');
         searchSubmit.disabled = true; // DISABLE SEARCH BUTTON
 
         filmsOnPage.addEventListener('change', (e) => {
@@ -113,9 +132,9 @@ export async function start() {
             pagesBlock.style.display = 'none';
             pageTitle.innerText = `Search results by "${searchValue}"`;
 
-            films = searchValue ?
-                await fetchData({ searchStr: searchInput.value.trim() }) :
-                await fetchData({ page });
+            films = searchValue
+                ? await fetchData({ searchStr: searchInput.value.trim() })
+                : await fetchData({ page });
 
             searchInput.value = '';
             searchSubmit.disabled = true;
@@ -136,9 +155,8 @@ export async function start() {
         });
 
         //  PAGINATION NEXT/PREV BUTTONS
-        [ ...changePageButtons ].forEach(btn => {
+        [ ...changePageButtons ].forEach((btn) => {
             btn.addEventListener('click', async (e) => {
-
                 if(e.target.classList.contains('pages__prev-btn')) {
                     //  PREVIOUS PAGE BUTTON
                     if(page === pagesRange[0]) return;
@@ -161,7 +179,7 @@ export async function start() {
         });
 
         //  PAGINATION PAGES LIST
-        paginationItems.forEach(el =>
+        paginationItems.forEach((el) =>
             el.addEventListener('click', async () => {
                 // TAKE ALL ITEMS, THAT NOT CLICKED, AND REMOVE FROM THEM ACTIVE CLASS
                 const notClickedLinks = [ ...paginationItems ].filter((notClickedLink) => {
@@ -178,21 +196,11 @@ export async function start() {
                     activePageNumber.innerText = page;
 
                     films = await fetchData({ page });
-                    const options = { films, filmsLimit, genre, language, message }
+                    const options = { films, filmsLimit, genre, language, message };
                     checkEmptyFilms(options);
                 }
             }),
         );
-
-        // HIDE MODAL CARD, WHEN CLICK ON EMPTY SPACE
-        modal.addEventListener('click', (e) => {
-            if(!e.target.closest('.modal__card')) {
-                modal.classList.add('modal__overlay--hide');
-                modal.classList.remove('modal__overlay--show');
-                modal.innerHTML = '';
-                document.body.style.overflowY = 'scroll';
-            }
-        });
 
         //  LOAD FILMS
         films = await fetchData({ page });
@@ -206,24 +214,23 @@ export async function start() {
             const options = { films, filmsLimit, genre, language, message };
             checkEmptyFilms(options);
         }
-    } else if(window.location.pathname.includes('Favourites') && localStorage.getItem("user")) {  //  FAVOURITES PAGE
+    } else if(window.location.pathname.includes('Favourites') && localStorage.getItem('user')) {
+        //  FAVOURITES PAGE
         loader.style.display = 'none';
 
         films = await getFavourites();
 
         if(films) {
-            const options = { films, filmsLimit: films.length, genre, language, message }
+            const options = { films, filmsLimit: films.length, genre, language, message };
             checkEmptyFilms(options);
         } else {
             message.innerText = 'Films Not Found';
             message.style.display = 'block';
         }
-    } else if(!localStorage.getItem("user")) {
-        window.location.assign("module/Login")
+    } else if(!localStorage.getItem('user')) {
+        window.location.assign('/Login');
     }
 
     //  SET CURRENT YEAR TO FOOTER
     document.getElementById('footer__date').innerText = `${new Date().getFullYear()}`;
 }
-
-// start()

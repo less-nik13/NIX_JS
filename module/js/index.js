@@ -1,26 +1,16 @@
-import { createUser } from "./login.js";
-import { start } from "./mainPages.js";
-
-console.log(window.location, 'render 1');
+import { createUser } from './login.js';
+import { start } from './mainPages.js';
 
 async function loadPage() {
-    if(!localStorage.getItem("user") && window.location.pathname.includes('Login')) {
+    if(!localStorage.getItem('user') && window.location.pathname.includes('Login')) {
         createUser();
-    } else if(localStorage.getItem("user") && !window.location.pathname.includes('Login')) {
+    } else if(!localStorage.getItem('user') && !window.location.pathname.includes('Login')) {
+        window.location.replace('/Login');
+    } else if(localStorage.getItem('user') && !window.location.pathname.includes('Login')) {
         await start();
+    } else {
+        window.location.replace('/Films');
     }
-
-    // if(window.location.replace("/Login")) {
-    //     if(window.location.pathname.includes('Login')) {
-    //         console.log('true');
-    //         createUser();
-    //     }
-    // } else if(localStorage.getItem("user") && window.location.pathname.includes('Login')) {
-    //     window.location.replace("/Films");
-    // } else if(localStorage.getItem("user") && !window.location.pathname.includes('Login')) {
-    //     await start();
-    // }
 }
 
 loadPage();
-

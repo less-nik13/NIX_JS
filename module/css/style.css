@@ -175,7 +175,7 @@ body {
     transition: color 0.4s ease-out;
 }
 
-.menu__logout-button {
+#menu__logout-button {
     background-color: unset;
     padding: 0;
     cursor: pointer;
@@ -190,7 +190,7 @@ body {
     transition: fill 0.4s ease-out;
 }
 
-.menu__logout-wrapper:hover > button{
+.menu__logout-wrapper:hover > #menu__logout-button{
     color: #92c796;
 }
 

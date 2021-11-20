@@ -4,8 +4,8 @@ import { films, genre, language, message } from './mainPages.js';
 
 export async function getFavourites() {
     try {
-        const favouriteFilmsIdentifiers = JSON.parse(localStorage.getItem('identifiers'));
-        const requests = favouriteFilmsIdentifiers.map((filmId) => fetchData({ filmId: filmId.id }));
+        const { favourites } = JSON.parse(localStorage.getItem('user'));
+        const requests = favourites.map((filmId) => fetchData({ filmId: filmId.id }));
         return await Promise.all(requests);
     } catch(err) {
         console.log(err);
@@ -13,33 +13,27 @@ export async function getFavourites() {
 }
 
 export function addToFavourites(id) {
-    const identifiers = [];
-    if(!localStorage.getItem('identifiers')) {
-        identifiers.push({ id });
-        localStorage.setItem('identifiers', JSON.stringify(identifiers));
-    } else {
-        identifiers.push(...JSON.parse(localStorage.getItem('identifiers')), { id });
-        localStorage.setItem(
-            'identifiers',
-            JSON.stringify(identifiers),
-        );
-    }
+    const userData = JSON.parse(localStorage.getItem('user'));
+
+    userData.favourites.push({ id });
+    localStorage.setItem('user', JSON.stringify(userData));
 }
 
 export function removeFromFavourites(id) {
-    const identifiers = JSON.parse(localStorage.getItem('identifiers'));
-    localStorage.setItem('identifiers', JSON.stringify(identifiers.filter((el) => el.id !== id)));
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const newFavourites = userData.favourites.filter((el) => el.id !== id);
+    localStorage.setItem('user', JSON.stringify({ ...userData, favourites: newFavourites }));
 
     if(window.location.pathname.includes('Favourites')) {
         const index = films.findIndex((film) => film.id === id);
         films.splice(index, 1);
-        checkEmptyFilms({films, filmsLimit: films.length, genre, language, message});
+        checkEmptyFilms({ films, filmsLimit: films.length, genre, language, message });
     }
 }
 
 export function checkFavourites(id, elem) {
-    if(localStorage.getItem('identifiers')) {
-        const favourites = JSON.parse(localStorage.getItem('identifiers'));
+    if(localStorage.getItem('user')) {
+        const { favourites } = JSON.parse(localStorage.getItem('user'));
 
         if(favourites.some((el) => el.id === id)) {
             elem.classList.add('active');
