@@ -1,6 +1,8 @@
 import { createUser } from './login.js';
 import { start } from './mainPages.js';
 
+import "/css/style.css";
+
 async function loadPage() {
     if(!localStorage.getItem('user') && window.location.pathname.includes('Login')) {
         createUser();

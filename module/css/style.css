@@ -58,6 +58,7 @@ select {
 a {
     text-decoration: none;
 }
+
 /* /reset */
 
 /* loader */
@@ -99,6 +100,7 @@ a {
         transform: rotate(360deg);
     }
 }
+
 /* /loader */
 
 html {
@@ -190,11 +192,11 @@ body {
     transition: fill 0.4s ease-out;
 }
 
-.menu__logout-wrapper:hover > #menu__logout-button{
+.menu__logout-wrapper:hover > #menu__logout-button {
     color: #92c796;
 }
 
-.menu__logout-wrapper:hover > svg > path{
+.menu__logout-wrapper:hover > svg > path {
     fill: #92c796;
 }
 
@@ -265,6 +267,7 @@ body {
     top: 5px;
     margin: 0 auto;
 }
+
 /* /header */
 
 #main {
@@ -525,6 +528,7 @@ body {
 #form__btn:hover {
     background: #646485;
 }
+
 /* /search form */
 
 select {
@@ -672,6 +676,7 @@ select {
     color: #fff;
     background: #92c796;
 }
+
 /* /pagination */
 
 /* scroll up button */
@@ -716,6 +721,7 @@ select {
     visibility: visible;
     box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
 }
+
 /* /scroll up button */
 
 /* footer */
@@ -739,6 +745,7 @@ select {
 .footer__link:hover {
     color: #92c796;
 }
+
 /* /footer */
 
 /* Login Form */
@@ -754,7 +761,7 @@ select {
     background-size: cover;
 }
 
-.login__title{
+.login__title {
     margin-bottom: 20px;
     text-align: center;
     color: #343a47;
@@ -832,7 +839,7 @@ select {
     font-size: 12px;
 }
 
-@media(max-width: 458px) {
+@media (max-width: 458px) {
     .login__form {
         margin: 0 10px;
         background: #f9faff;
@@ -841,4 +848,5 @@ select {
         padding: 30px;
     }
 }
+
 /* /Login Form */
