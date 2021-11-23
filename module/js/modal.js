@@ -1,5 +1,6 @@
 import createElement from './createElement.js';
 import { fallbackData } from './helpers.js';
+import { modal } from "./mainPages.js";
 
 export function showModal(film) {
     const filmCard = createElement('div', 'class', 'modal__card');
@@ -11,6 +12,7 @@ export function showModal(film) {
     const filmPremiere = createElement('p', 'class', 'modal__card-premiere');
     const filmLanguage = createElement('p', 'class', 'modal__card-language');
     const filmGenres = createElement('ul', 'class', 'modal__card-genres');
+    const modalClose = createElement('div', 'class', 'modal__close-btn');
 
     const {
         name,
@@ -32,6 +34,13 @@ export function showModal(film) {
     modal.classList.remove('modal__overlay--hide');
     modal.classList.add('modal__overlay--show');
 
+    modalClose.addEventListener('click', () => {
+        modal.classList.add('modal__overlay--hide');
+        modal.classList.remove('modal__overlay--show');
+        modal.innerHTML = '';
+        document.body.style.overflowY = 'scroll';
+    });
+
     filmImage.setAttribute('src', `${image}`);
     filmImage.setAttribute('alt', `${name}`);
     filmTitle.innerText = name;
@@ -48,7 +57,7 @@ export function showModal(film) {
         filmRating,
         filmPremiere,
     );
-    filmCard.append(filmImage, filmContentWrapper);
+    filmCard.append(filmImage, filmContentWrapper, modalClose);
     modal.append(filmCard);
 }
 

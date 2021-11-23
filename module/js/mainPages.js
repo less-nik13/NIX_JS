@@ -11,7 +11,7 @@ const filmsOnPage = document.getElementById('films-per-page'); //  SELECT OF FIL
 const logoutBtn = document.getElementById('menu__logout-button');
 
 // GLOBAL VARIABLES
-const modal = document.getElementById('modal');
+export const modal = document.getElementById('modal');
 export const message = document.getElementById('message'); // H2 TAG FOR TEXT MESSAGE
 export let language = languages?.options[languages.selectedIndex].value; // filmsLimit OF LANGUAGE ON LOAD
 export let genre = genres?.options[genres.selectedIndex].value; // filmsLimit OF GENRE ON LOAD
@@ -29,7 +29,7 @@ window.addEventListener('scroll', () => {
 
 //  CHANGE ACTIVE NAV LINK
 [ ...navigationLinks ].forEach((link) => {
-    const currentPage = window.location.pathname;
+    const currentPage = window.location.pathname.split('/')[2];
     if(link.href.includes(currentPage)) {
         link.classList.add('menu__list-link--active');
     }
@@ -126,7 +126,8 @@ export async function start() {
         });
 
         // SEARCH SUBMIT
-        searchSubmit.addEventListener('click', async () => {
+        searchSubmit.addEventListener('click', async (e) => {
+            e.preventDefault();
             const searchValue = searchInput.value.trim();
 
             pagesBlock.style.display = 'none';
